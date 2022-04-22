@@ -92,7 +92,7 @@ func getTriesString(tries int) string {
 }
 
 func getNbTries() int {
-	const defaultTries = 6
+	const defaultTries = 15
 	var tries int
 	flag.IntVar(&tries, "t", defaultTries, "Specify number of tries. Default is 6")
 	flag.Parse()

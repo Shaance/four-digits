@@ -9,7 +9,7 @@ After every guess, `xAyB` will be printed, where x means the number of digits at
 You will win when you guessed all 4 digits at the correct place.
 
 
-By default you have 6 tries, but you tweak the number with the appropriate flag.
+By default you have 15 tries, but you tweak the number with the appropriate flag.
 
 ## Usage
 
