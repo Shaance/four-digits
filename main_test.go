@@ -10,31 +10,39 @@ const notNumericError = "[Error] Input needs to be composed of 4 digits between 
 const duplicateError = "[Error] Input can't have duplicates"
 
 func TestValidateInput_TooShort(t *testing.T) {
-	testValidateInput("123", lenError, t)
+	testValidate(createUserInputWithStringInput("123"), lenError, t)
 }
 
 func TestValidateInput_TooLong(t *testing.T) {
-	testValidateInput("12323", lenError, t)
+	testValidate(createUserInputWithStringInput("12345"), lenError, t)
 }
 
 func TestValidateInput_NotNumeric(t *testing.T) {
-	testValidateInput("123s", notNumericError, t)
+	testValidate(createUserInputWithStringInput("123s"), notNumericError, t)
 }
 
 func TestValidateInput_Duplicates(t *testing.T) {
-	testValidateInput("1232", duplicateError, t)
+	testValidate(createUserInputWithStringInput("1232"), duplicateError, t)
 }
 
 func TestValidateInput_HappyCase(t *testing.T) {
-	actual := validateInput("1234")
-	if actual != nil {
-		t.Errorf("Expected no error, instead got %s", actual)
+	userInput := createUserInputWithStringInput("1234")
+	userInput.validate()
+	if userInput.err != nil {
+		t.Errorf("Expected no error, instead got %s", userInput.err.Error())	
 	}
 }
 
-func testValidateInput(input string, errMsg string, t *testing.T) {
-	actual := validateInput(input)
-	if fmt.Sprint(actual) != errMsg {
-		t.Errorf("Expected error to be %s, got %s", errMsg, actual)
+func createUserInputWithStringInput(stringInput string) UserInput {
+	var userInput UserInput
+	userInput.originalStringInput = stringInput
+	return userInput
+}
+ 
+func testValidate(input UserInput, expectedErrMsg string, t *testing.T) {
+	input.validate()
+	actualErr := input.err.Error()
+	if fmt.Sprint(actualErr) != expectedErrMsg {
+		t.Errorf("Expected error to be %s, got %s", expectedErrMsg, actualErr)
 	}
 }
